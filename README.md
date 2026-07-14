@@ -1,5 +1,5 @@
 # Code to characterize effects of deforestation of secondary vegetation in the Brazilian Amazon
-Accompanies Sheen, Arisco, De Nicola, Castro (2026) The effects of deforestation of secondary vegetation on malaria risk in the Brazilian Amazon
+Accompanies Sheen, Arisco, De Nicola, Castro (2026) "The effects of deforestation of secondary vegetation on malaria risk in the Brazilian Amazon"
 
 ## code
 - 1_inlaSmooth_InteriorEdge_Penalized.R: model results with RW2 penalization on B-spline

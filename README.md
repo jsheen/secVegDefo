@@ -2,10 +2,10 @@
 - Accompanies Sheen, Arisco, De Nicola, Castro (2026) "The effects of deforestation of secondary vegetation on malaria risk in the Brazilian Amazon."
 - Codebase below was used to generate model results and plots. User must create directory ```code_output/mon_results``` and ```code_output/mon_results/age_prof``` to store model results, which are in .RData form, before running model scripts. These .RData objects are subsequently used in the plotting scripts.
 ## code
-- ```1_inlaSmooth_InteriorEdge.R```: main model results
+- ```1_inlaSmooth_InteriorEdge.R```: main model results (with B-spline with four degrees of freedom and intercept)
 - ```1_inlaSmooth_InteriorEdge_Penalized.R```: model results with RW2 penalization on B-spline
 - ```1_inlaSmooth_NoPropEdge.R```: sensitivity analysis with no variable for proportion of secondary vegetation deforestation that was edge (PropEdge)
-- ```1_inlaSmooth_sens5.R```: sensitivity analysis with 5 degrees of freedom
+- ```1_inlaSmooth_sens5.R```: sensitivity analysis with 5 degrees of freedom of B-spline (with intercept)
 - ```2_plot...R```: plotting scripts of above model results
 - ```3_compareInfo.R```: comparison of WAIC and DIC information of above models
 ## code_output

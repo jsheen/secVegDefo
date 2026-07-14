@@ -11,6 +11,8 @@ Accompanies Sheen, Arisco, De Nicola, Castro (2026) "The effects of deforestatio
 ## code_output
 - model_comparison.csv: .csv of model comparison of information
 - plots_mod: plotting results of above models
+## data
+- deforest_wide_InteriorEdge.csv: model data
 
 These programs are a work in progress, as we work to improve usability, error-catching, and speed of analysis. If you find errors, please contact Justin Sheen at jsheen (at) hsph (dot) harvard (dot) edu.
 

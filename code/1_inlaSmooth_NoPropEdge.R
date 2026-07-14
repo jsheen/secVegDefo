@@ -30,10 +30,10 @@ library(tidyverse)
 #   showProgress = F,
 #   cache=F
 # )
-all_muni <- st_read("~/Desktop/secDef/muni_mun_exp/muni_mun_exp.shp")
+all_muni <- st_read("~/secVegDefo/data/muni_mun_exp/muni_mun_exp.shp")
 
 # Read in data
-deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
+deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
 
 # Get 1 SD change in base units
 sd(deforest_wide$df_perc_area_primary_prev, na.rm=T)

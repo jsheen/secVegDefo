@@ -8,8 +8,8 @@ library(sf)
 data_dir <- "~/Desktop/secDef/mon_results/age_prof/"
 files <- list.files(data_dir, pattern = "smooth_.*_sub_5df.RData", full.names = TRUE) 
 
-deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
-all_muni <- st_read("~/Desktop/secDef/muni_mun_exp/muni_mun_exp.shp")
+deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
+all_muni <- st_read("~/secVegDefo/data/muni_mun_exp/muni_mun_exp.shp")
 
 all_plot_data <- data.frame()
 

@@ -24,10 +24,10 @@ library(splines)
 library(tidyverse)
 
 # Read in municipality shapefile
-all_muni <- st_read("~/Desktop/secDef/muni_mun_exp/muni_mun_exp.shp")
+all_muni <- st_read("~/secVegDefo/data/muni_mun_exp/muni_mun_exp.shp")
 
 # Read in data
-deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
+deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
 # Define the exact age range for splines
 age_range <- 3:33
 # Generate the exact column names for Total and Edge by age

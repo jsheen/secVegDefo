@@ -8,8 +8,8 @@ library(gridExtra)
 library(splines)
 
 # Load these once so we don't repeatedly read them into memory
-deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
-all_muni <- st_read("~/Desktop/secDef/muni_mun_exp/muni_mun_exp.shp")
+deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
+all_muni <- st_read("~/secVegDefo/data/muni_mun_exp/muni_mun_exp.shp")
 
 data_dir <- "~/Desktop/secDef/mon_results/age_prof/"
 files <- list.files(data_dir, pattern = "smooth_.*_sub.RData", full.names = TRUE)

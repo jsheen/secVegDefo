@@ -1,0 +1,5 @@
+Model,DIC,WAIC,Delta_DIC,Delta_WAIC
+4 DoF (Original Floating),754256.1,755801,70.7,41.3
+5 DoF (Extra Flexibility),754185.4,755759.7,0,0
+IE,754198,755769.5,12.7,9.9
+IE alt,754207.6,755781,22.2,21.4

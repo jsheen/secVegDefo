@@ -93,9 +93,9 @@ p2 <- ggplot(p2_data, aes(x = Age, y = Effect)) +
   labs(title = "Relative Risk by State",
        y = "Relative Risk")
 
-pdf("~/Desktop/secDef/mon_results/plots/all_state_projections.pdf", width = 16, height = 9)
+pdf("~/secVegDefo/NoPropEdge.pdf", width = 16, height = 9)
 print(p1 + theme(aspect.ratio = 0.5)) 
 print(p2)
 dev.off()
 
-print("PDF saved to ~/Desktop/secDef/mon_results/plots/all_state_projections.pdf")
+print("PDF saved to ~/secVegDefo/NoPropEdge.pdf")

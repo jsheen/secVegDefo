@@ -88,7 +88,7 @@ p2 <- ggplot(all_plot_data %>% filter(State != "All"), aes(x = Age, y = Effect))
   ) + 
   labs(title = "Relative Risk by State: Population-Average Trajectory", y = "Relative Risk")
 
-output_pdf <- "~/Desktop/secDef/mon_results/plots/all_state_projections_avg_only.pdf"
+output_pdf <- "~/secVegDefo/code_output/plots_mod/IntEdge_AvgOnly.pdf"
 # Adding dir.create just in case the folder doesn't exist
 dir.create(dirname(output_pdf), showWarnings = FALSE, recursive = TRUE)
 

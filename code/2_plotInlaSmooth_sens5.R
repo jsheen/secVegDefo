@@ -82,7 +82,7 @@ p2 <- ggplot(p2_data, aes(x = Age, y = Effect)) +
   theme(aspect.ratio = 1) + 
   labs(title = "Relative Risk by State - 5 DoF", y = "Relative Risk")
 
-pdf("~/Desktop/secDef/mon_results/plots/all_state_projections_5df.pdf", width = 16, height = 9) 
+pdf("~/Desktop/secDef/mon_results/plots/5df.pdf", width = 16, height = 9) 
 print(p1 + theme(aspect.ratio = 0.75)) 
 
 p2_faceted <- ggplot(p2_data, aes(x = Age, y = Effect)) +

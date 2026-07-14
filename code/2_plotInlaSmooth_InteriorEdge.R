@@ -100,7 +100,7 @@ p2 <- ggplot(all_plot_data %>% filter(State != "All"), aes(x = Age, y = Effect, 
   theme(aspect.ratio = 0.5, panel.spacing = unit(1.5, "lines"), plot.title = element_text(size = 16, face = "bold"), legend.position = "bottom", legend.title = element_blank()) + 
   labs(title = "Relative Risk by State: Interior vs. Edge Deforestation", y = "Relative Risk")
 
-output_pdf <- "~/Desktop/secDef/mon_results/plots/all_state_projections_comp.pdf"
+output_pdf <- "~/secVegDefo/plots_model/IntEdge.pdf"
 dir.create(dirname(output_pdf), showWarnings = FALSE, recursive = TRUE)
 pdf(output_pdf, width = 6, height = 9)
 print(p1)

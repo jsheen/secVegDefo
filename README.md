@@ -1,6 +1,6 @@
 # Code to characterize effects of deforestation of secondary vegetation in the Brazilian Amazon
 - Accompanies Sheen, Arisco, De Nicola, Castro (2026) "The effects of deforestation of secondary vegetation on malaria risk in the Brazilian Amazon."
-- Codebase below was used to generate model results and plots. User must create directory mon_results and mon_results/age_prof to store model results, which are in .RData form, before running model scripts. These .RData objects are then used for plotting scripts.
+- Codebase below was used to generate model results and plots. User must create directory ```code_output/mon_results``` and ```code_output/mon_results/age_prof``` to store model results, which are in .RData form, before running model scripts. These .RData objects are then used for plotting scripts.
 ## code
 - 1_inlaSmooth_InteriorEdge.R: main model results
 - 1_inlaSmooth_InteriorEdge_Penalized.R: model results with RW2 penalization on B-spline

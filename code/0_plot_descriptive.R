@@ -22,6 +22,55 @@ library(viridis)
 library(patchwork)
 set.seed(0)
 
+# Seasonality profile of primary forest and final seasonality
+global_prim_intensity <- fread('~/secVegDefo/data/plot_data/global_prim_intensity.csv')
+prim_intensity <- ggplot(global_prim_intensity, aes(x = month, y = mean_intensity, group = 1)) +
+  # Add a ribbon for the variation across municipalities
+  geom_ribbon(aes(ymin = mean_intensity - sd_intensity, 
+                  ymax = mean_intensity + sd_intensity), 
+              fill = "forestgreen", alpha = 0.2) +
+  geom_line(color = "forestgreen", linewidth = 1.2) +
+  geom_point(color = "forestgreen", size = 3) +
+  scale_x_continuous(
+    breaks = seasonal_monthly_edge$month,
+    labels = seasonal_monthly_edge$month_label
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Seasonality profile: Primary",
+    x = "Month",
+    y = "Normalized Intensity"
+  ) +
+  theme(
+    panel.grid.minor = element_blank()#,
+    #plot.title = element_text(face = "bold")
+  )
+prim_seasonal <- fread('~/secVegDefo/data/plot_data/prim_seasonal.csv')
+prim_seas_plot <- ggplot(prim_seasonal, aes(x = factor(month), y = total_m2 * 0.0001, group = 1)) +
+  geom_area(fill = "forestgreen", alpha = 0.2) +
+  geom_line(color = "forestgreen", linewidth = 1.2) +
+  geom_point(color = "forestgreen", size = 2) +
+  scale_x_discrete(labels = month.abb) + 
+  theme_minimal() +
+  labs(
+    title = "Seasonality Profile: Primary",
+    x = "Month",
+    y = "Total Primary Deforestation (ha)"
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.title.x = element_blank()#,
+    #plot.title = element_text(face = "bold")
+  )
+prim_plot <- prim_intensity + prim_seas_plot
+prim_plot <- prim_plot + plot_annotation(tag_levels = 'A')
+ggsave("~/secVegDefo/code_output/plots_descrip/prim_plot.png", 
+       plot = prim_plot,
+       width=9,
+       height=4,
+       units='in',
+       dpi=300)
+
 # Seasonality profiles of AID across municipalities
 aid_sec_edge <- fread('~/secVegDefo/data/plot_data/aid_sec_edge.csv')
 aid_sec_interior <- fread('~/secVegDefo/data/plot_data/aid_sec_interior.csv')
@@ -44,11 +93,11 @@ seas_edge_alert <- ggplot(global_edge_intensity, aes(x = month_label, y = mean_i
   labs(
     title = "Seasonality Profile: Edge",
     x = "Month",
-    y = "Normalized intensity across municipalities"
+    y = "Normalized intensity"
   ) +
   theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(face = "bold")
+    panel.grid.minor = element_blank()#,
+    #plot.title = element_text(face = "bold")
   )
 # Get seasonality profile of alert intensity distribution (interior)
 global_interior_intensity <- aid_sec_interior %>%
@@ -73,8 +122,8 @@ seas_int_alert <- ggplot(global_interior_intensity, aes(x = month_label, y = mea
     y = ""
   ) +
   theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(face = "bold")
+    panel.grid.minor = element_blank()#,
+    #plot.title = element_text(face = "bold")
   )
 seas_profile <- seas_edge_alert + seas_int_alert
 seas_profile
@@ -96,7 +145,7 @@ mb_age_prof_plot <- ggplot(plot_data, aes(x = secondary_age, y = area_ha, fill =
   ) +
   theme_minimal() +
   labs(
-    title = "Secondary Deforestation Age Profile (2003-2024)",
+    title = "Secondary Deforestation Age Profile",
     x = "Age of Secondary Vegetation (Years)",
     y = "Total Area Deforested (ha)",
     fill = "Location"
@@ -110,6 +159,60 @@ ggsave("~/secVegDefo/code_output/plots_descrip/mb_age_prof_plot.png",
        units='in',
        dpi=300)
 
+# Final MB seasonality profile
+seasonal_monthly_interior <- fread('~/secVegDefo/data/plot_data/seasonal_monthly_interior.csv')
+seasonal_monthly_edge <- fread('~/secVegDefo/data/plot_data/seasonal_monthly_edge.csv')
+final_mb_seas_edge <- ggplot(seasonal_monthly_edge, aes(x = month, y = total_m2 * 0.0001, group = 1)) +
+  geom_line(color = "red", linewidth = 1.2) +
+  geom_point(color = "red", size = 2) +
+  geom_area(fill = "red", alpha = 0.2) +
+  scale_x_continuous(
+    breaks = seasonal_monthly_edge$month,
+    labels = seasonal_monthly_edge$month_label
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Seasonality Profile: Edge",
+    x = "Month",
+    y = "Total Deforested Area (ha)"
+  ) +
+  theme(panel.grid.minor = element_blank())
+final_mb_seas_interior <- ggplot(seasonal_monthly_interior, aes(x = month, y = total_m2 * 0.0001, group = 1)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  geom_point(color = "steelblue", size = 2) +
+  geom_area(fill = "steelblue", alpha = 0.2) +
+  scale_x_continuous(
+    breaks = seasonal_monthly_edge$month,
+    labels = seasonal_monthly_edge$month_label
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Seasonality Profile: Interior",
+    x = "Month",
+    y = ""
+  ) +
+  theme(panel.grid.minor = element_blank())
+final_mb_seas <- final_mb_seas_edge + final_mb_seas_interior
+final_mb_seas
+ggsave("~/secVegDefo/code_output/plots_descrip/final_mb_seas.png", 
+       plot = final_mb_seas,
+       width=9,
+       height=4,
+       units='in',
+       dpi=300)
+
+# Secondary deforestation plot
+final_sec_def <- (seas_profile / mb_age_prof_plot / final_mb_seas) +
+  plot_annotation(tag_levels = 'A')
+ggsave("~/secVegDefo/code_output/plots_descrip/final_sec_def.png", 
+       plot = final_sec_def,
+       width=8,
+       height=8,
+       units='in',
+       dpi=300)
+
+# There is roughly 5 times as much primary deforestation compared to secondary deforestation
+sum(prim_seasonal$total_m2 * 0.0001) / sum(seasonal_monthly_interior$total_m2 * 0.0001, seasonal_monthly_edge$total_m2 * 0.0001)
 
 
 

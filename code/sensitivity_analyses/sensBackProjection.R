@@ -21,6 +21,7 @@ library(INLA)
 library(dplyr)
 library(splines)
 library(tidyverse)
+library(stringr)
 
 deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
 all_muni <- st_read("~/Desktop/secDef/muni_mun_exp/muni_mun_exp.shp")
@@ -101,7 +102,6 @@ back_project <- function(target_age, defo_factor_increase) {
   med_rr <- median(df_samples$RR)
   lower_ci <- quantile(df_samples$RR, 0.025)
   upper_ci <- quantile(df_samples$RR, 0.975)
-  print(paste0(round(med_rr, 3), ' [ ', round(lower_ci, 3), ', ', round(upper_ci, 3), ' ]'))
   
   # Create the density plot
   ggplot(df_samples, aes(x = RR)) +
@@ -116,15 +116,50 @@ back_project <- function(target_age, defo_factor_increase) {
       x = "Relative Risk",
       y = "Density"
     )
+  return(paste0(round(med_rr, 3), ' [ ', round(lower_ci, 3), ', ', round(upper_ci, 3), ' ]'))
 }
 
+# Test 1
 back_project(8, 1)
 back_project(8, 10)
+str_replace_all(
+  back_project(8, 1), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1) * 10, 3)
+)
+str_replace_all(
+  back_project(8, 10), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1), 3)
+)
+
+# Test 2
 back_project(17, 1)
 back_project(17, 10)
+str_replace_all(
+  back_project(17, 1), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1) * 10, 3)
+)
+str_replace_all(
+  back_project(17, 10), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1), 3)
+)
+
+# Test 3
 back_project(30, 1)
 back_project(30, 10)
-
+str_replace_all(
+  back_project(30, 1), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1) * 10, 3)
+)
+str_replace_all(
+  back_project(30, 10), 
+  "\\d+\\.?\\d*", 
+  function(x) round((as.numeric(x) - 1), 3)
+)
 
 
 

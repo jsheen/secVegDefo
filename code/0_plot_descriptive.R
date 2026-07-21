@@ -216,3 +216,8 @@ sum(prim_seasonal$total_m2 * 0.0001) / sum(seasonal_monthly_interior$total_m2 * 
 
 
 
+
+
+
+
+

@@ -4,6 +4,7 @@ file_4df <- "~/Desktop/secDef/mon_results/All_age_smooth_sub.RData"
 file_5df <- "~/Desktop/secDef/mon_results/All_age_smooth_sub_5df.RData"
 file_IE <- "~/Desktop/secDef/mon_results/All_age_smooth_sub_InteriorEdge.RData"
 file_IEalt <- "~/Desktop/secDef/mon_results/All_age_smooth_sub_altInteriorEdge.RData"
+file_IEpop <- "~/Desktop/secDef/mon_results/All_age_smooth_sub_sensPopInteriorEdge.RData"
 
 extract_metrics <- function(filepath, model_name) {
   # Check if file exists to prevent crashing
@@ -34,7 +35,10 @@ res_IE <- extract_metrics(file_IE, "IE")
 cat("Extracting metrics from alt IE model...\n")
 res_IEalt <- extract_metrics(file_IEalt, "IE alt")
 
-comparison_table <- rbind(res_4df, res_5df, res_IE, res_IEalt)
+cat("Extracting metrics from pop IE model...\n")
+res_IEpop <- extract_metrics(file_IEpop, "IE pop")
+
+comparison_table <- rbind(res_4df, res_5df, res_IE, res_IEalt, res_IEpop)
 
 # Lower is better, so we subtract the minimum score from all scores
 best_dic <- min(comparison_table$DIC, na.rm = TRUE)

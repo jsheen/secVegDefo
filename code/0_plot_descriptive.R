@@ -213,8 +213,13 @@ ggsave("~/secVegDefo/code_output/plots_descrip/final_sec_def.png",
 
 # There is roughly 5 times as much primary deforestation compared to secondary deforestation
 sum(prim_seasonal$total_m2 * 0.0001) / sum(seasonal_monthly_interior$total_m2 * 0.0001, seasonal_monthly_edge$total_m2 * 0.0001)
+sum(prim_seasonal$total_m2 * 1e-6)
+sum(seasonal_monthly_interior$total_m2 * 1e-6, seasonal_monthly_edge$total_m2 * 1e-6)
+sum(seasonal_monthly_interior$total_m2 * 1e-6)
+sum(seasonal_monthly_edge$total_m2 * 1e-6)
 
 
+sum(seasonal_monthly_interior$total_m2) * 1e-6
 
 
 

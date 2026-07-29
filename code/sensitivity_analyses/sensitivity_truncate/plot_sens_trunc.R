@@ -87,11 +87,9 @@ p1 <- ggplot(all_plot_data %>% filter(State == "All"), aes(x = Age, y = Effect, 
   scale_fill_manual(values = c("Interior (0% Edge)" = "#00BFC4", "100% Edge" = "#C77CFF")) +
   theme_minimal() +
   theme(aspect.ratio = 0.75, legend.position = "bottom", legend.title = element_blank()) +
-  labs(title = "Relative Risk (All States): Interior vs. Edge Deforestation", y = "Relative Risk")
+  labs(title = "Sec. Deforestation: Interior vs. Edge", y = "Relative Risk")
 
-output_pdf <- "~/secVegDefo/code/sensitivity_analyses/sensitivity_truncate/truncate.pdf"
+output_pdf <- "~/secVegDefo/code/sensitivity_analyses/sensitivity_truncate/truncate.png"
 dir.create(dirname(output_pdf), showWarnings = FALSE, recursive = TRUE)
-pdf(output_pdf, width = 6, height = 9)
-print(p1)
-dev.off()
+ggsave(filename=output_pdf,plot=p1, width = 4, height = 4, dpi=300)
 print(paste("PDF saved to", output_pdf))

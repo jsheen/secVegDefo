@@ -8,7 +8,8 @@ library(sf)
 data_dir <- "~/Desktop/secDef/mon_results/age_prof/"
 files <- list.files(data_dir, pattern = "smooth_.*_sub_InteriorEdge.RData", full.names = TRUE)
 
-deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
+deforest_wide <- fread(file="~/Desktop/secDef/deforest_wide_InteriorEdge.csv")
+#deforest_wide <- fread(file="~/secVegDefo/data/deforest_wide_InteriorEdge.csv")
 all_muni <- st_read("~/secVegDefo/data/muni_mun_exp/muni_mun_exp.shp")
 
 # Compile data
@@ -86,9 +87,65 @@ p1 <- ggplot(all_plot_data %>% filter(State == "All"), aes(x = Age, y = Effect, 
   scale_color_manual(values = c("Interior (0% Edge)" = "#00BFC4", "100% Edge" = "#C77CFF")) +
   scale_fill_manual(values = c("Interior (0% Edge)" = "#00BFC4", "100% Edge" = "#C77CFF")) +
   theme_minimal() +
-  theme(aspect.ratio = 0.75, legend.position = "bottom", legend.title = element_blank()) +
-  labs(title = "Relative Risk (All States): Interior vs. Edge Deforestation", y = "Relative Risk")
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  labs(title = "Sec. Defo.: Interior vs. Edge Deforestation", y = "Relative Risk")
 
+all_res_paper <- all_plot_data %>% filter(State == "All")
+
+file_path <- "~/Desktop/secDef/mon_results/"
+files <- list.files(path = file_path, pattern = "_monNew.csv", full.names = TRUE)
+all_results <- files %>%
+  map_df(~{
+    read_csv(.x) %>%
+      rename(parameter = 1) %>%
+      mutate(state = str_remove(basename(.x), "_monNew.csv"))
+  })
+
+other_states <- sort(unique(all_results$state[all_results$state != "All"]))
+state_levels <- c(rev(other_states), "All") 
+
+plot_data <- all_results %>%
+  filter(parameter %in% c("scale(df_perc_area_primary_prev)", 
+                          "scale(df_perc_area_secondary_prev)")) %>%
+  mutate(
+    state = factor(state, levels = state_levels),
+    parameter = case_when(
+      parameter == "scale(df_perc_area_primary_prev)" ~ "Primary deforestation",
+      parameter == "scale(df_perc_area_secondary_prev)" ~ "Secondary deforestation"
+    ),
+    parameter = factor(parameter, levels = c("Primary deforestation", "Secondary deforestation"))
+  )
+
+forest <- ggplot(plot_data, aes(y = state, x = mean)) +
+  geom_point(color = "steelblue", size = 2) +
+  geom_errorbarh(aes(xmin = `0.025quant`, xmax = `0.975quant`), 
+                 height = 0.2, color = "gray40") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red") +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(title = "Posterior Estimates across States",
+       x = "Posterior Mean (95% Credible Interval)",
+       y = "State") +
+  theme_minimal() +
+  theme(panel.spacing = unit(2, "lines"))
+combined_plot <- forest / p1
+combined_plot <- combined_plot + 
+  plot_annotation(tag_levels = 'A') + 
+  plot_layout(heights = c(1.2, 1))
+combined_plot
+ggsave(
+  filename = "~/secVegDefo/code_output/plots_mod/Fig2.pdf", 
+  plot = combined_plot,
+  width = 5,
+  height = 6,
+  dpi = 300
+)
+all_res_paper <- all_plot_data %>% filter(State == "All")
+1-c(0.922122, 0.93958, 0.9573)
+1 - c(0.9846, 0.9756, 0.9975)
+
+1 - c(1.0166382, 0.9947599, 1.0377197)
+
+# Stratified -------------------------------------------------------------------
 p2 <- ggplot(all_plot_data %>% filter(State != "All"), aes(x = Age, y = Effect, color = Type, fill = Type)) +
   geom_hline(yintercept = 1, linetype = "dashed", color = "black") +
   geom_ribbon(aes(ymin = Lower, ymax = Upper), alpha = 0.15, color = NA) +
@@ -100,10 +157,10 @@ p2 <- ggplot(all_plot_data %>% filter(State != "All"), aes(x = Age, y = Effect, 
   theme(aspect.ratio = 0.5, panel.spacing = unit(1.5, "lines"), plot.title = element_text(size = 16, face = "bold"), legend.position = "bottom", legend.title = element_blank()) + 
   labs(title = "Relative Risk by State: Interior vs. Edge Deforestation", y = "Relative Risk")
 
-output_pdf <- "~/secVegDefo/plots_model/IntEdge.pdf"
+output_pdf <- "~/secVegDefo/code_output/plots_mod/IntEdge.png"
 dir.create(dirname(output_pdf), showWarnings = FALSE, recursive = TRUE)
-pdf(output_pdf, width = 6, height = 9)
-print(p1)
+pdf(output_pdf, width = 7, height = 7)
 print(p2)
 dev.off()
 print(paste("PDF saved to", output_pdf))
+

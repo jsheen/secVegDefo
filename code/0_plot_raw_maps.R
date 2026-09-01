@@ -89,7 +89,7 @@ p <- ggplot(data = map_data) +
   ) +
   scale_fill_viridis_c(
     option = "plasma", 
-    name = "Prim. Defo.\n(mill. km2)",
+    name = "Prim. Defo.\n(mill. km²)",
     na.value = "white"
   ) +
   theme_minimal() +
@@ -112,7 +112,7 @@ s <- ggplot(data = map_data) +
   geom_sf(data = amazon_states, fill = NA, color = "black", linewidth = 0.6) +
   scale_fill_viridis_c(
     option = "viridis", 
-    name = "Sec. Defo.\n(mill. km2)",
+    name = "Sec. Defo.\n(mill. km²)",
     na.value = "white"
   ) +
   theme_minimal() +
@@ -129,14 +129,44 @@ s <- ggplot(data = map_data) +
   )
 #s
 
-p + s
+# Deforestation age profile
+mb_age_prof_data <- fread('~/secVegDefo/data/plot_data/mb_age_prof.csv')
+mb_age_prof_plot <- ggplot(mb_age_prof_data, aes(x = secondary_age, y = area_ha * 0.01, fill = location_type)) +
+  # Adding position = "dodge" places the bars next to each other
+  geom_col(position = "dodge", alpha = 0.85) +
+  scale_fill_manual(
+    values = c("total_edge_ha" = "indianred1", "total_int_ha" = "steelblue"),
+    labels = c("Edge", "Interior")
+  ) +
+  theme_minimal() +
+  labs(
+    title = "C) Secondary Deforestation Age Profile",
+    x = "Age of Secondary Vegetation (Years)",
+    y = "Total Area Deforested (km²)",
+    fill = "Location"
+  ) +
+  theme(legend.position = c(0.92, 0.72),
+        legend.background = element_rect(color = "black", fill = "white", linewidth = 0.5),)
+mb_age_prof_plot <- mb_age_prof_plot +
+  theme(
+    plot.margin = ggplot2::margin(t = 0.2, r = 0, b = 0.2, l = 1.5, unit = "cm")
+  )
+p <- p + 
+  theme(plot.title.position = "plot")
 
-combined_maps <- p + s
+mb_age_prof_plot <- mb_age_prof_plot + 
+  theme(plot.title.position = "plot")
+(p + s) / mb_age_prof_plot
+
+bottom_row <- plot_spacer() + mb_age_prof_plot + plot_layout(widths = c(0, 10))
+(p + s) / bottom_row
+
+combined_maps <- (p + s) / (mb_age_prof_plot)
 
 ggsave(
   filename = "~/secVegDefo/code_output/plots_descrip/Fig1.png",
   plot = combined_maps, 
-  width = 9,     # Made wider to fit two maps nicely
-  height = 3,     
+  width = 9,    
+  height = 6,     
   dpi = 900       
 )

@@ -202,12 +202,12 @@ ggsave("~/secVegDefo/code_output/plots_descrip/final_mb_seas.png",
        dpi=300)
 
 # Secondary deforestation plot
-final_sec_def <- (seas_profile / mb_age_prof_plot / final_mb_seas) +
+final_sec_def <- (seas_profile / final_mb_seas) +
   plot_annotation(tag_levels = 'A')
 ggsave("~/secVegDefo/code_output/plots_descrip/final_sec_def.png", 
        plot = final_sec_def,
        width=8,
-       height=8,
+       height=5,
        units='in',
        dpi=300)
 
